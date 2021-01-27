@@ -1,0 +1,17 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+body {
+  background-color: #f6f6f6;
+}
+
+:root {
+  --color-text: #666;
+  --color-high-text: #ff5777;
+  --line-height: 1.5;
+  --font-size: 14px;
+  --color-background: #c82519;
+  --color-font-color: #f4270c;
+}
+@import "./normalize.css";
