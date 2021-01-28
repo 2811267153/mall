@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const Home = () => import('../veiws/Home/home')
+const detail = () => import('../veiws/detail/detail')
 
 export default new Router({
   routes: [
@@ -14,6 +15,10 @@ export default new Router({
     {
      path: '/home', 
      component: Home
+    },
+    {
+      path: '/detail/:iid',
+      component: detail
     }
   ],
   mode:'history'

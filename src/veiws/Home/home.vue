@@ -6,13 +6,27 @@
       <p slot="right">登录</p>
     </nav-bar>
     <div class="kongbai"></div>
+    <tab-nav-bar
+      ref="nav"
+      :title="['流行', '新款', '精选']"
+      @tabCilck="tabCilck"
+      class="nav"
+      v-show="isShow"
+    />
 
     <!-- 轮播图 -->
-    <scroll class="content">
+    <scroll
+      class="content"
+      ref="scroll"
+      :pull-up-load="true"
+      :probe-type="3"
+      @scroll="contentScroll"
+      @pullingUp="loadMore"
+    >
       <swiper>
         <swiper-item v-for="item in banners" :key="item.id">
           <a :href="item.link">
-            <img :src="item.image" alt="" />
+            <img :src="item.image" alt="" @load="imageLoad" />
           </a>
         </swiper-item>
       </swiper>
@@ -21,10 +35,16 @@
       <!-- 快捷服务 -->
       <fav />
       <!-- 顶部导航 -->
-      <tab-nav-bar :title="['流行', '新款', '精选']" @tabCilck="tabCilck" />
+      <tab-nav-bar
+        ref="nav1"
+        :title="['流行', '新款', '精选']"
+        @tabCilck="tabCilck"
+      />
       <!-- 商品列表 -->
       <goods-list :goods-list="goods[currentIndex].list" />
     </scroll>
+
+    <blacke-top @click.native="blackClick" v-show="isShowBackTop" />
   </div>
 </template>
 
@@ -36,6 +56,7 @@ import fav from "./home/fav";
 import tabNavBar from "../../components/conent/tabNavBar/tabNavBar";
 import goodsList from "../../components/conent/goods/goods";
 import scroll from "../../common/scroll/scroll";
+import blackeTop from "../../common/blakeTop/blakeTop";
 
 import { getHomeMultidata, getGoodsData } from "../../network/home";
 export default {
@@ -49,7 +70,8 @@ export default {
     recommend,
     fav,
     tabNavBar,
-    goodsList
+    goodsList,
+    blackeTop
   },
   data() {
     return {
@@ -61,7 +83,10 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentIndex: "pop"
+      currentIndex: "pop",
+      isShowBackTop: false,
+      tabOffetTop: null,
+      isShow: false
     };
   },
 
@@ -70,16 +95,17 @@ export default {
     this.getHomeMultidata();
 
     //获取主体推荐内容
-    // getGoodsData('pop', 1).then(res => {
-    //   console.log(res);
-    // })
-    //   // this.getGoodsData(pop);
-    //   this.getGoodsData("new");
-    //   this.getGoodsData("sell");
+
     this.getGoodsData("pop");
     this.getGoodsData("new");
     this.getGoodsData("sell");
+
+    //监听item中 事件的发射
+    this.$bus.$on("imgLoad", () => {
+      this.$refs.scroll.refresh;
+    });
   },
+
   methods: {
     tabCilck(index) {
       switch (index) {
@@ -88,11 +114,27 @@ export default {
           break;
         case 1:
           this.currentIndex = "new";
-
+          break;
         case 2:
           this.currentIndex = "sell";
           break;
       }
+    },
+
+    imageLoad() {
+      this.tabOffetTop = this.$refs.nav1.$el.offsetTop;
+
+    },
+
+    blackClick() {
+      this.$refs.scroll.scrollTo(0, 0, 1000);
+    },
+    contentScroll(position) {
+      this.isShowBackTop = -position.y > 1000;
+      this.isShow = -position.y > this.tabOffetTop
+    },
+    loadMore() {
+      this.getGoodsData(this.currentIndex);
     },
 
     getHomeMultidata() {
@@ -104,10 +146,11 @@ export default {
     getGoodsData(type) {
       const page = (this.goods[type].page = 1);
       getGoodsData(type, page).then(res => {
-        console.log(res);
         this.goods[type].list.push(...res.data.data.list);
         // console.log(this.goods['pop'].list);
         this.goods[type].page += 1;
+
+        this.$refs.scroll.finishPullUp();
       });
     }
   }
@@ -135,5 +178,10 @@ export default {
   bottom: 49px;
   left: 0;
   right: 0;
+}
+.nav{
+  position: relative;
+  z-index: 10;
+  background-color: #fff;
 }
 </style>

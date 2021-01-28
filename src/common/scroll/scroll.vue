@@ -39,6 +39,9 @@ export default {
       probeType: this.probeType,
       pullUpLoad: this.pullUpLoad
     });
+    this.scroll.on('scroll', position => {
+      this.$emit('scroll', position)
+    })
 
     //监听滚动的位置
     // if (this.probeType === 2 || this.probeType === 3) {
@@ -78,7 +81,7 @@ export default {
     // 给外界提供一个方法，用来时时根据图片加载出来的时候刷新better-scroll高度
     refresh() {
       this.scroll && this.scroll.refresh();
-      console.log("++++++++");
+      // console.log("++++++++");
     },
 
     getScrollY() {
