@@ -8,7 +8,7 @@
     <div class="kongbai"></div>
 
     <!-- 轮播图 -->
-    <scroll>
+    <scroll class="content">
       <swiper>
         <swiper-item v-for="item in banners" :key="item.id">
           <a :href="item.link">
@@ -128,7 +128,12 @@ export default {
   height: 44px;
 }
 
-.cenetr{
-  height: 300px;
+.content {
+  overflow: hidden;
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
 }
 </style>
