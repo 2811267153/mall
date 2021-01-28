@@ -25,20 +25,21 @@ export default {
     }
     .nav-bar-center{
         flex: 1;
+        text-align: centerh;
     }
+
     .nav-bar-right,
     .nav-bar-left{
         width: 60px;
         height: 100%;
-        /* display: table-cell; */
+        display: table-cell;
 
         line-height: 44px;
-        vertical-align: middle;
         text-align: center;
         color: #fff;
     }
     .nav-bar-left img{
         width: 20px;
-        margin: 0 auto;
+        vertical-align: middle;
     }
 </style>

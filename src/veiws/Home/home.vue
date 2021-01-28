@@ -123,7 +123,8 @@ export default {
 
     imageLoad() {
       this.tabOffetTop = this.$refs.nav1.$el.offsetTop;
-
+      console.log(this.$refs.nav1.$el.offsetTop);
+      console.log(this.tabOffetTop);
     },
 
     blackClick() {

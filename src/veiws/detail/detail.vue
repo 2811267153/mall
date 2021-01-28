@@ -1,38 +1,48 @@
 <template>
-    <nav-bar>
-        <div class="left" slot="left"><img src="../../assets/img/icon-test.png" alt="" srcset=""></div>
-        <div slot="center"><span>商品</span><span>参数</span><span>评论</span><span>推荐</span></div>
-        <div class="right" slot="right"></div>
-    </nav-bar>
+  <div>
+    <tab-bar></tab-bar>
+    <!-- 轮播图 -->
+    <swiper class="swiper-item">
+      <swiper-item v-for="item in topImages" :key="item">
+        <img :src="item" alt="">
+      </swiper-item>
+    </swiper>
+  </div>
 </template>
 
 <script>
-import navBar from "../../components/common/navBar/navBar";
+import tabBar from "../../common/tabBar/tabBat";
+import { swiper, swiperItem } from "../../components/common/swiper";
 
 import { getDetail } from "../../network/detail";
 export default {
-    name: 'detail',
-    data() {
-        return {
-            iid: null 
-        }
-    },
-    components: {
-        navBar
-    },
-    created(){
+  name: "detail",
+  data() {
+    return {
+      iid: null,
+      topImages: null
+    };
+  },
+  components: {
+    tabBar,
+    swiper,
+    swiperItem
+  },
+  created() {
+    //发送网络请求 携带id参数
+    this.iid = this.$route.params.iid;
+    getDetail(this.iid).then(res => {
+      console.log(res);
 
-        //发送网络请求 携带id参数
-        this.iid = this.$route.params.iid
-        getDetail(this.iid).then(res => {
-            console.log(res);
-        })
-    }
-}
+      this.topImages = res.data.result.itemInfo.topImages;
+    });
+  }
+};
 </script>
 
 <style scoped>
-.left .right{
-    background-color: #fff;
+.swiper-item{
+  height: 300px;
+  overflow: hidden;
 }
 </style>
