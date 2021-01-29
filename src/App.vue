@@ -1,20 +1,22 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive exclude="detail"> 
+      <router-view/>
+    </keep-alive>
     <main-tab-bar-item></main-tab-bar-item>
   </div>
 </template>
 
 <script>
-import MainTabBarItem from './components/conent/MainTabBarItem';
+import MainTabBarItem from "./components/conent/MainTabBarItem";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    MainTabBarItem  
+    MainTabBarItem
   }
-}
+};
 </script>
 
 <style>
-@import './assets/css/beast.css';
+@import "./assets/css/beast.css";
 </style>

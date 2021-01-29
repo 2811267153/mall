@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item" @click="itemClick">
-    <img :src="goodsItem.show.img" @load="imgLoad"/>
+    <img :src="showImage" @load="imgLoad"/>
     <div>
       <p>{{ goodsItem.title }}</p>
       <span class="price">{{ goodsItem.price }}</span>
@@ -23,14 +23,22 @@ export default {
   methods:{
     imgLoad(){
       //创建事件总线  发射任务 给home 监听
-      this.$bus.$emit('imgLoad')
+      if (this.$route.path.indexOf('/home')) {
+        this.$bus.$emit('itemImgLoad')
+      }else{
+        console.log('-');
+      }
     },
     itemClick(){
       this.$router.push('/detail/' + this.goodsItem.iid)
       console.log(this.goodsItem.iid);
     }
+  },
+  computed: {
+    showImage(){
+      return this.goodsItem.image || this.goodsItem.show.img;
+    }
   }
-  
 };
 </script>
 

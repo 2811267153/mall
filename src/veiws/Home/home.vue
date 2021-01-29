@@ -86,10 +86,18 @@ export default {
       currentIndex: "pop",
       isShowBackTop: false,
       tabOffetTop: null,
-      isShow: false
+      isShow: false,
+      seveY: 0
     };
   },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.seveY);
+    this.$refs.scroll.refresh()
+  },
 
+  deactivated() {
+    this.seveY = this.$refs.scroll.getScrollY()
+    },
   created() {
     //请求搜也推荐数据
     this.getHomeMultidata();
@@ -119,12 +127,14 @@ export default {
           this.currentIndex = "sell";
           break;
       }
+
+      //两个 tabBar保持一致
+      this.$refs.nav1.currentIndex = index;
+      this.$refs.nav.currentIndex = index;
     },
 
     imageLoad() {
       this.tabOffetTop = this.$refs.nav1.$el.offsetTop;
-      console.log(this.$refs.nav1.$el.offsetTop);
-      console.log(this.tabOffetTop);
     },
 
     blackClick() {
@@ -132,7 +142,7 @@ export default {
     },
     contentScroll(position) {
       this.isShowBackTop = -position.y > 1000;
-      this.isShow = -position.y > this.tabOffetTop
+      this.isShow = -position.y > this.tabOffetTop;
     },
     loadMore() {
       this.getGoodsData(this.currentIndex);
@@ -180,7 +190,7 @@ export default {
   left: 0;
   right: 0;
 }
-.nav{
+.nav {
   position: relative;
   z-index: 10;
   background-color: #fff;
