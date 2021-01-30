@@ -25,13 +25,10 @@ export default {
       //创建事件总线  发射任务 给home 监听
       if (this.$route.path.indexOf('/home')) {
         this.$bus.$emit('itemImgLoad')
-      }else{
-        console.log('-');
       }
     },
     itemClick(){
       this.$router.push('/detail/' + this.goodsItem.iid)
-      console.log(this.goodsItem.iid);
     }
   },
   computed: {

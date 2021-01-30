@@ -21,6 +21,7 @@ export class Goods {
     this.price = itemInfo.price;
     this.lowPrice = itemInfo.lowPrice;
     this.discount = itemInfo.discountDesc;
+    this.title = itemInfo.title
     this.columns = columns;
     this.service = service;
   }
@@ -33,7 +34,6 @@ export class Shop {
     this.fans = shopInfo.cFans;
     this.sell = shopInfo.cSells;
     this.scores = shopInfo.score;
-    // console.log(this.scores);
     this.goodsCount = shopInfo.cGoods;
   }
 }

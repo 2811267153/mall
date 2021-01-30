@@ -21,7 +21,7 @@ export default {
   name: "tabBar",
   data() {
     return {
-      titles: ["商品", "参数", "评论", "推荐"],
+      titles: ["商品", "评论", "参数", "推荐"],
       currentIndex: 0
     };
     
@@ -29,6 +29,7 @@ export default {
   methods: {
       tabBarClick(index){
         this.currentIndex = index
+        this.$emit('tabClick', index)
       },
       blackClick(){
           this.$router.back()

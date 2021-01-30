@@ -23,6 +23,7 @@
         </div>
       </div>
     </div>
+    <div class="null"><span>当前宝贝暂时还没有评论哦!!!</span></div>
   </div>
 </template>
 
@@ -114,5 +115,14 @@ export default {
   width: 70px;
   height: 70px;
   margin-right: 5px;
+}
+
+.null{
+  text-align: center;
+  background-color: #ccc;
+  height: 50px;
+  border-radius: 8px;
+  margin: 10px 0;
+  line-height: 50px;
 }
 </style>
